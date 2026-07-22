@@ -1,0 +1,25 @@
+{
+  "name": "decodelabs-week2-backend",
+  "version": "1.0.0",
+  "description": "Backend API for task management built with Node.js, Express, and CORS. Project for Week 2 of DecodeLabs Internship.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "rest-api",
+    "crud"
+  ],
+  "author": "Intern",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

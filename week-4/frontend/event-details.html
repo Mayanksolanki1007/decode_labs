@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Details – EventSphere</title>
+  <meta name="description" content="View full schedule, event rules, prizes, and coordinator contacts for college events. Register online.">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo" id="nav-logo">
+        EventSphere <span class="logo-dot"></span>
+      </a>
+      
+      <nav class="nav-menu" id="nav-menu" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="events.html" class="nav-link">Events</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+      
+      <div class="nav-actions">
+        <!-- Dark Mode Toggle Button -->
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark mode">
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+        
+        <!-- Mobile Hamburger Icon -->
+        <button id="hamburger-menu" class="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="nav-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main style="margin-top: var(--nav-height); min-height: 80vh;">
+    
+    <!-- Error Fallback Container -->
+    <div id="details-error-view" class="container section-padding" style="display: none; text-align: center;">
+      <div style="font-size: 4rem; margin-bottom: 20px;">⚠️</div>
+      <h2>Event Not Found</h2>
+      <p style="margin-top: 10px; margin-bottom: 30px;">The event you are looking for might have been removed, renamed, or is temporarily unavailable.</p>
+      <a href="events.html" class="btn btn-primary">Back to Catalog</a>
+    </div>
+
+    <!-- Active Details View -->
+    <div id="details-active-view">
+      <!-- Banner Section -->
+      <section id="details-banner" class="details-banner">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px); background-size: 20px 20px; opacity: 0.5;"></div>
+        <div class="container details-banner-content">
+          <span class="badge" id="details-badge-cat" style="margin-bottom: 16px;">CATEGORY</span>
+          <h1 id="details-title" style="margin-bottom: 8px;">Event Title</h1>
+          <p id="details-college" style="color: rgba(255, 255, 255, 0.85); font-weight: 500;">College Name</p>
+        </div>
+      </section>
+
+      <!-- Details Columns Section -->
+      <section class="section-padding" style="padding-top: 50px;">
+        <div class="container event-details-grid">
+          
+          <!-- Left Main Column (Details, Timeline, Rules) -->
+          <div>
+            <!-- Description -->
+            <div class="details-grid-card reveal">
+              <h2 style="font-size: 1.5rem; margin-bottom: 16px; border-bottom: 2px solid var(--border); padding-bottom: 10px;">About the Event</h2>
+              <p id="details-desc" style="line-height: 1.7; font-size: 1.05rem;">Full event description goes here...</p>
+            </div>
+
+            <!-- Timeline -->
+            <div class="details-grid-card reveal">
+              <h2 style="font-size: 1.5rem; margin-bottom: 24px; border-bottom: 2px solid var(--border); padding-bottom: 10px;">Event Timeline</h2>
+              <div class="timeline" id="details-timeline-box">
+                <!-- Timeline items rendered dynamically -->
+              </div>
+            </div>
+
+            <!-- Rules -->
+            <div class="details-grid-card reveal">
+              <h2 style="font-size: 1.5rem; margin-bottom: 24px; border-bottom: 2px solid var(--border); padding-bottom: 10px;">Rules & Guidelines</h2>
+              <div class="rules-list" id="details-rules-box">
+                <!-- Rules items rendered dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Sidebar Column -->
+          <div style="position: sticky; top: 100px;">
+            <!-- Register Card -->
+            <div class="details-grid-card reveal" style="border: 2px solid var(--primary); box-shadow: var(--shadow-md);">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                <div>
+                  <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-light); font-weight: 700;">Prize Pool</div>
+                  <div style="font-size: 1.75rem; font-weight: 800; color: var(--success);" id="details-prize">₹00,000</div>
+                </div>
+                <!-- Fav button -->
+                <button class="fav-btn" id="details-fav-trigger" style="position: static; background-color: var(--bg); border: 1px solid var(--border);" aria-label="Toggle Favorite">
+                  <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </button>
+              </div>
+
+              <!-- Quick Info Items -->
+              <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; border-top: 1px solid var(--border); padding-top: 20px;">
+                <div class="event-detail-item" style="font-size: 0.95rem;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px; color: var(--primary);"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  <div>
+                    <strong style="display: block; color: var(--text-main); font-size: 0.85rem; text-transform: uppercase;">Date & Time</strong>
+                    <span id="details-date-str">July 28, 2026</span>
+                  </div>
+                </div>
+                
+                <div class="event-detail-item" style="font-size: 0.95rem;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px; color: var(--primary);"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  <div>
+                    <strong style="display: block; color: var(--text-main); font-size: 0.85rem; text-transform: uppercase;">Venue</strong>
+                    <span id="details-venue-str">Auditorium Hall</span>
+                  </div>
+                </div>
+                
+                <div class="event-detail-item" style="font-size: 0.95rem;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px; color: var(--primary);"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                  <div>
+                    <strong style="display: block; color: var(--text-main); font-size: 0.85rem; text-transform: uppercase;">Available Seats</strong>
+                    <span id="details-seats-str">120 Seats Remaining</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Registration Button -->
+              <button class="btn btn-primary" id="details-reg-btn" style="width: 100%; padding: 12px;">Register for Event</button>
+            </div>
+
+            <!-- Countdown Timer Card -->
+            <div class="details-grid-card reveal">
+              <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-light); text-align: center;">Registration Closes In</h3>
+              
+              <div id="details-clock" class="details-countdown-box">
+                <div class="countdown-segment">
+                  <div class="countdown-val days">00</div>
+                  <div class="countdown-lbl">Days</div>
+                </div>
+                <div class="countdown-segment">
+                  <div class="countdown-val hours">00</div>
+                  <div class="countdown-lbl">Hrs</div>
+                </div>
+                <div class="countdown-segment">
+                  <div class="countdown-val minutes">00</div>
+                  <div class="countdown-lbl">Min</div>
+                </div>
+                <div class="countdown-segment">
+                  <div class="countdown-val seconds">00</div>
+                  <div class="countdown-lbl">Sec</div>
+                </div>
+              </div>
+              <div class="countdown-expired-notice" style="display: none; text-align: center; color: var(--danger); font-weight: 700; margin-top: 10px; font-size: 0.9rem;">
+                🚨 Registration closed.
+              </div>
+            </div>
+
+            <!-- Organizer Contact Card -->
+            <div class="details-grid-card reveal">
+              <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">Organized By</h3>
+              <div style="font-weight: 700; color: var(--text-main);" id="details-org-name">Apex Club</div>
+              <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">Coordinator Desk</div>
+              
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <a href="#" class="btn btn-secondary" style="font-size: 0.85rem; padding: 8px 12px; justify-content: flex-start;" id="details-org-phone">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; color: var(--primary); margin-right: 8px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                  <span>Call Organizer</span>
+                </a>
+                <a href="#" class="btn btn-secondary" style="font-size: 0.85rem; padding: 8px 12px; justify-content: flex-start;" id="details-org-email">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; color: var(--primary); margin-right: 8px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                  <span>Email Organizer</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Related Events Section -->
+      <section class="section-padding" style="background-color: var(--bg-card); border-top: 1px solid var(--border);">
+        <div class="container">
+          <h2 style="font-size: 1.75rem; margin-bottom: 30px; text-align: center;">Other Events You Might Like</h2>
+          <div class="events-grid" id="details-related-grid">
+            <!-- Renders dynamically -->
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo" style="margin-bottom: 20px;">
+          EventSphere <span class="logo-dot"></span>
+        </a>
+        <p class="footer-description">
+          A platform for college students to find and join local campus events.
+        </p>
+        <div class="social-links">
+          <a href="#" class="social-btn" aria-label="Twitter">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"></path><circle cx="4" cy="4" r="2"></circle></svg>
+          </a>
+        </div>
+      </div>
+      
+      <div>
+        <h4 class="footer-title">Explore</h4>
+        <ul class="footer-links">
+          <li><a href="index.html" class="footer-link">Home</a></li>
+          <li><a href="events.html" class="footer-link">Events</a></li>
+          <li><a href="about.html" class="footer-link">About Us</a></li>
+          <li><a href="contact.html" class="footer-link">Contact</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="footer-title">Popular Categories</h4>
+        <ul class="footer-links">
+          <li><a href="events.html?cat=Technical" class="footer-link">Hackathons</a></li>
+          <li><a href="events.html?cat=Workshop" class="footer-link">Workshops</a></li>
+          <li><a href="events.html?cat=Cultural" class="footer-link">Cultural Fests</a></li>
+          <li><a href="events.html?cat=Sports" class="footer-link">Sports</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="container footer-bottom">
+      <div class="copyright">&copy; 2026 EventSphere. DecodeLabs Project 1. Built with HTML, CSS, and JS.</div>
+      <div class="footer-meta-links">
+        <a href="#" class="footer-meta-link">Privacy Policy</a>
+        <a href="#" class="footer-meta-link">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="data/events.js"></script>
+  <script src="js/darkmode.js"></script>
+  <script src="js/menu.js"></script>
+  <script src="js/countdown.js"></script>
+  <script src="js/favorites.js"></script>
+  <script src="js/filter.js"></script>
+  <script src="js/app.js"></script>
+  
+  <script>
+    // Controller logic for event details
+    const EventSphereDetails = {
+      event: null,
+
+      init() {
+        const params = new URLSearchParams(window.location.search);
+        const eventId = params.get('id');
+        
+        if (!eventId && window.EventSphereData) {
+          this.showError();
+          return;
+        }
+
+        this.event = (window.EventSphereData || []).find(ev => ev.id === eventId);
+        
+        if (!this.event) {
+          this.showError();
+          return;
+        }
+
+        document.getElementById('details-active-view').style.display = 'block';
+        document.getElementById('details-error-view').style.display = 'none';
+
+        this.renderDetails();
+        this.setupFavoriteTrigger();
+        this.renderRelatedEvents();
+      },
+
+      showError() {
+        document.getElementById('details-active-view').style.display = 'none';
+        document.getElementById('details-error-view').style.display = 'block';
+      },
+
+      renderDetails() {
+        const ev = this.event;
+        document.title = `${ev.title} – EventSphere`;
+
+        document.getElementById('details-title').textContent = ev.title;
+        document.getElementById('details-college').textContent = ev.college;
+        
+        const catBadge = document.getElementById('details-badge-cat');
+        catBadge.textContent = ev.category;
+        catBadge.className = `badge badge-${ev.category.toLowerCase()}`;
+        
+        const colors = {
+          Technical: 'var(--cat-technical)',
+          Sports: 'var(--cat-sports)',
+          Workshop: 'var(--cat-workshop)',
+          Cultural: 'var(--cat-cultural)',
+          Music: 'var(--cat-music)',
+          Art: 'var(--cat-art)',
+          Career: 'var(--cat-career)'
+        };
+        document.getElementById('details-banner').style.background = colors[ev.category] || 'var(--primary)';
+
+        document.getElementById('details-desc').textContent = ev.description;
+        
+        // Render Timeline
+        const timelineBox = document.getElementById('details-timeline-box');
+        timelineBox.innerHTML = ev.timeline.map(item => `
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-time">${item.time}</div>
+            <div class="timeline-title">${item.title}</div>
+          </div>
+        `).join('');
+
+        // Render Rules
+        const rulesBox = document.getElementById('details-rules-box');
+        rulesBox.innerHTML = ev.rules.map(rule => `
+          <div class="rules-item">
+            <svg class="rules-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span class="rules-text">${rule}</span>
+          </div>
+        `).join('');
+
+        // Sidebar info
+        document.getElementById('details-prize').textContent = ev.prizePool;
+        document.getElementById('details-date-str').textContent = new Date(ev.date).toLocaleDateString('en-US', {
+          weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+        }) + ' • ' + ev.time.split('(')[0];
+        
+        document.getElementById('details-venue-str').textContent = ev.venue;
+        
+        const seatsText = document.getElementById('details-seats-str');
+        if (ev.seatsRemaining === 0) {
+          seatsText.textContent = 'Sold Out';
+          seatsText.style.color = 'var(--danger)';
+          seatsText.style.fontWeight = '700';
+        } else if (ev.seatsRemaining <= 10) {
+          seatsText.textContent = `Only ${ev.seatsRemaining} seats left!`;
+          seatsText.style.color = 'var(--accent)';
+          seatsText.style.fontWeight = '700';
+        } else {
+          seatsText.textContent = `${ev.seatsRemaining} / ${ev.totalSeats} seats open`;
+          seatsText.style.color = 'var(--text-muted)';
+        }
+
+        const regBtn = document.getElementById('details-reg-btn');
+        regBtn.setAttribute('data-register-id', ev.id);
+        if (ev.seatsRemaining === 0) {
+          regBtn.textContent = 'Registration Closed';
+          regBtn.disabled = true;
+          regBtn.style.cursor = 'not-allowed';
+          regBtn.style.opacity = '0.6';
+        } else {
+          regBtn.textContent = 'Register for Event';
+          regBtn.disabled = false;
+          regBtn.style.cursor = 'pointer';
+          regBtn.style.opacity = '1';
+        }
+
+        if (window.EventSphereCountdown) {
+          window.EventSphereCountdown.initDetailCountdown('details-clock', ev.date);
+        }
+
+        document.getElementById('details-org-name').textContent = ev.organizer.name;
+        document.getElementById('details-org-phone').href = `tel:${ev.organizer.contact.replace(/\s+/g, '')}`;
+        document.getElementById('details-org-email').href = `mailto:${ev.organizer.email}`;
+      },
+
+      setupFavoriteTrigger() {
+        const trigger = document.getElementById('details-fav-trigger');
+        if (!trigger) return;
+
+        trigger.setAttribute('data-fav-id', this.event.id);
+        
+        if (window.EventSphereFavorites) {
+          window.EventSphereFavorites.syncButtons();
+        }
+      },
+
+      renderRelatedEvents() {
+        const relatedGrid = document.getElementById('details-related-grid');
+        if (!relatedGrid || !window.EventSphereData) return;
+
+        let list = window.EventSphereData.filter(ev => ev.category === this.event.category && ev.id !== this.event.id);
+        
+        if (list.length < 3) {
+          const exclusions = [this.event.id, ...list.map(e => e.id)];
+          const fillers = window.EventSphereData.filter(ev => !exclusions.includes(ev.id));
+          list = [...list, ...fillers];
+        }
+
+        const recommended = list.slice(0, 3);
+
+        if (window.EventSphereFilter) {
+          const oldGrid = window.EventSphereFilter.gridContainer;
+          window.EventSphereFilter.gridContainer = relatedGrid;
+          window.EventSphereFilter.render(recommended);
+          window.EventSphereFilter.gridContainer = oldGrid;
+        }
+      }
+    };
+
+    window.EventSphereDetails = EventSphereDetails;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      EventSphereDetails.init();
+    });
+  </script>
+</body>
+</html>

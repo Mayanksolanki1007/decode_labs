@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Sign Up – EventSphere Auth</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .auth-container {
+      max-width: 440px;
+      margin: 60px auto;
+      padding: 32px;
+      background: var(--card-bg, #ffffff);
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      border: 1px solid var(--border-color, #e2e8f0);
+    }
+    .auth-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      border-bottom: 2px solid var(--border-color, #e2e8f0);
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      color: #64748b;
+      border-bottom: 3px solid transparent;
+    }
+    .auth-tab.active {
+      color: #4f46e5;
+      border-bottom-color: #4f46e5;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color, #cbd5e1);
+      font-size: 0.95rem;
+      box-sizing: border-box;
+    }
+    .alert-box {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .alert-error {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+    .alert-success {
+      background: #f0fdf4;
+      color: #16a34a;
+      border: 1px solid #bbf7d0;
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover {
+      background: #4338ca;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header / Nav -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polygon points="12 8 8 16 16 16 12 8"></polygon>
+        </svg>
+        <span>EventSphere</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="events.html">Discover Events</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div id="auth-nav-container"></div>
+    </div>
+  </header>
+
+  <main style="min-height: 70vh; padding: 20px;">
+    <div class="auth-container">
+      <div class="auth-tabs">
+        <div class="auth-tab active" id="tab-login" onclick="switchTab('login')">Log In</div>
+        <div class="auth-tab" id="tab-register" onclick="switchTab('register')">Sign Up</div>
+      </div>
+
+      <div id="alert-message" class="alert-box alert-error"></div>
+
+      <!-- Login Form -->
+      <form id="form-login" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="login-email">Email Address</label>
+          <input type="email" id="login-email" required placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn-submit">Log In</button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="form-register" onsubmit="handleRegister(event)" style="display: none;">
+        <div class="form-group">
+          <label for="register-name">Full Name</label>
+          <input type="text" id="register-name" required placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label for="register-email">Email Address</label>
+          <input type="email" id="register-email" required placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label for="register-password">Password (min 6 characters)</label>
+          <input type="password" id="register-password" required minlength="6" placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn-submit">Create Account</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script>
+    function switchTab(mode) {
+      const loginTab = document.getElementById('tab-login');
+      const registerTab = document.getElementById('tab-register');
+      const loginForm = document.getElementById('form-login');
+      const registerForm = document.getElementById('form-register');
+      const alertBox = document.getElementById('alert-message');
+
+      alertBox.style.display = 'none';
+
+      if (mode === 'login') {
+        loginTab.classList.add('active');
+        registerTab.classList.remove('active');
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+      } else {
+        registerTab.classList.add('active');
+        loginTab.classList.remove('active');
+        registerForm.style.display = 'block';
+        loginForm.style.display = 'none';
+      }
+    }
+
+    function showAlert(message, type = 'error') {
+      const alertBox = document.getElementById('alert-message');
+      alertBox.className = `alert-box alert-${type}`;
+      alertBox.textContent = message;
+      alertBox.style.display = 'block';
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      try {
+        await Auth.login(email, password);
+        showAlert('Login successful! Redirecting...', 'success');
+        setTimeout(() => window.location.href = 'index.html', 1000);
+      } catch (err) {
+        showAlert(err.message || 'Login failed', 'error');
+      }
+    }
+
+    async function handleRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('register-name').value;
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+
+      try {
+        await Auth.register(name, email, password);
+        showAlert('Registration successful! Redirecting...', 'success');
+        setTimeout(() => window.location.href = 'index.html', 1000);
+      } catch (err) {
+        showAlert(err.message || 'Registration failed', 'error');
+      }
+    }
+  </script>
+</body>
+</html>

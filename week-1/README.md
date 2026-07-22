@@ -6,7 +6,7 @@ This is **Project 1** for the **DecodeLabs Internship**.
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
 - **Responsive Mobile-First Grids**: Pixel-perfect grid and flexbox layouts tested for mobile ($320\text{px} - 767\text{px}$), tablet ($768\text{px} - 1023\text{px}$), and desktop ($1024\text{px}+$) screens.
 - **Glassmorphic Navigation Bar**: A sticky header containing a blurry backdrop blur filter and a dynamic sliding responsive hamburger menu drawer.
@@ -20,7 +20,7 @@ This is **Project 1** for the **DecodeLabs Internship**.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 The project code is organized as a decoupled frontend application:
 
@@ -51,7 +51,7 @@ EventSphere/
 
 ---
 
-## 🎨 Design System & Colors
+##Design System & Colors
 
 The typography utilizes Google Fonts' **Inter** for clean readability and **Poppins** for large, spacious headings. Colors are stored in CSS Variables:
 
@@ -66,7 +66,7 @@ The typography utilizes Google Fonts' **Inter** for clean readability and **Popp
 
 ---
 
-## 🛠️ Installation & Launch
+## Installation & Launch
 
 Since EventSphere is built on native browser standards, it requires no package installations.
 
@@ -79,7 +79,7 @@ Since EventSphere is built on native browser standards, it requires no package i
 
 ---
 
-## ♿ Accessibility & Standards
+## Accessibility & Standards
 
 - **Semantic HTML**: Structural hierarchy using `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, and `<footer>` containers.
 - **Focus Rings**: Standardised visible keyboard focus indicators (`:focus-visible`) for smooth tabbing.
